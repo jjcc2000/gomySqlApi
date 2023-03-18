@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"path/mod/db"
 	"path/mod/models"
-
 	"github.com/gorilla/mux"
 )
 func GetUsersHandlers(w http.ResponseWriter, r *http.Request){
@@ -29,7 +28,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request){
 		w.WriteHeader(http.StatusNotFound)
 		//Response to the frontend 
 		w.Write([]byte("The id you are looking for does not Exist"))
-		json.NewEncoder(w).Encode(&dab)
+		return
 	}else{
 		json.NewEncoder(w).Encode(&dab)
 	}
@@ -50,5 +49,18 @@ func PostUsersHandler(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(&user)
 }
 func DeletedUserHandler(w http.ResponseWriter, r *http.Request){
-	w.Write([]byte("Delete the User"))
+	var DVA models.User
+	vars := mux.Vars(r)
+
+	db.DB.First(&DVA,vars["id"])
+	if DVA.ID==0{
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Can not be deleted because not found"))
+		return
+	}
+	//With the Unscoped Method you deleted it from the Database
+	//With Delete you hide it
+	db.DB.Unscoped().Delete(&DVA)	
+	w.Write([]byte("The user has been deleted"))
+	w.WriteHeader(http.StatusOK)
 }
