@@ -30,6 +30,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request){
 		w.Write([]byte("The id you are looking for does not Exist"))
 		return
 	}else{
+		db.DB.Model(&dab).Association("Tasks").Find(&dab.Tasks)
 		json.NewEncoder(w).Encode(&dab)
 	}
 
