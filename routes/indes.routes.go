@@ -9,5 +9,5 @@ func HomeHandler(w http.ResponseWriter, r *http.Request){
 	w.Write([]byte("Hello World "))
 }
 func SecondPage(w http.ResponseWriter, r *http.Request){
-	json.NewEncoder(w).Encode("Should be in the SECOND PAGE")
+	json.NewEncoder(w).Encode("Should be in the SECOND PAGE and now has changed")
 }
