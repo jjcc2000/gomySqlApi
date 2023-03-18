@@ -1,2 +1,2 @@
 # goPostGrestApi
-v1 Missing the delete method
+v2 miss relations task and users
